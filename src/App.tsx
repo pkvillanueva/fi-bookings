@@ -24,7 +24,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route index element={<Home />} />
-            <Route path=":bookId/details" element={<BookDetails />} />
+            <Route path="book/:bookId" element={<BookDetails />} />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>
