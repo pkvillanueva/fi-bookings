@@ -20,14 +20,14 @@ import {
 } from "@chakra-ui/react"
 import axios from "axios"
 import { useMutation, useQuery } from "react-query"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Formik, Field } from "formik"
 import moment from "moment"
 import { API_URL } from "./lib/constants"
 
 const BookDetails = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
+  const navigate = useNavigate();
   const { bookId } = useParams();
 
   const {
@@ -45,6 +45,15 @@ const BookDetails = () => {
       setIsEditing(false);
     },
   });
+
+  const {
+    mutate: deleteBook,
+    isLoading: isDeleting,
+  } = useMutation(() => axios.delete(`${API_URL}/bookings/${bookId}`), {
+    onSuccess() {
+      navigate('/');
+    },
+  })
 
   if (isLoading) {
     return (
@@ -194,6 +203,15 @@ const BookDetails = () => {
         <Stack spacing="2" direction="row" py="4" px={{ base: '4', md: '6' }}>
           <Button colorScheme="yellow" type="button" onClick={() => setIsEditing(true)}>
             Edit
+          </Button>
+          <Button
+            variant="ghost"
+            colorScheme="red"
+            type="button"
+            onClick={() => deleteBook()}
+            isLoading={isDeleting}
+          >
+            Delete
           </Button>
         </Stack>
       )}
