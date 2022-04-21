@@ -3,20 +3,33 @@ import {
   theme,
 } from "@chakra-ui/react"
 import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom"
 import Home from "./Home"
+import BookDetails from "./BookDetails"
+import "./App.css"
+
+const queryClient = new QueryClient()
 
 const App = () => (
-  <ChakraProvider theme={theme}>
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<Home />} />
-      </Routes>
-    </BrowserRouter>
-  </ChakraProvider>
+  <div id="app">
+    <ChakraProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path=":bookId/details" element={<BookDetails />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ChakraProvider>
+  </div>
 )
 
 export default App
